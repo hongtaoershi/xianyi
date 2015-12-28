@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.xianyi.R;
 import com.xianyi.activity.MyXianZhiActivity;
+import com.xianyi.bean.MessageType;
 import com.xianyi.bean.MyXianZhiListBean;
 import com.xianyi.customviews.FindTab2Layout;
 import com.xianyi.customviews.TitleView;
@@ -59,7 +60,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private ListAdapter adapter;
 
     /** 数据源 **/
-    private ArrayList<MyXianZhiListBean> bankList = new ArrayList<MyXianZhiListBean>();
+    private ArrayList<MessageType> bankList = new ArrayList<MessageType>();
     @Override
     public String getFragmentName() {
         return "MessageFragment";
@@ -247,10 +248,25 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             redpoint = (TextView) convertView.findViewById(R.id.redpoint);
             tv_my_xianzhi_context = (TextView) convertView.findViewById(R.id.tv_my_xianzhi_context);
             tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            MessageType messageType= bankList.get(position);
+            switch(messageType.messageType){
 
-//            tv_my_xianzhi_context.setText(bankList.get(position).getContext());
-//            tv_my_xianzhi_num.setText(bankList.get(position).getNumOrName());
-//            tv_my_xianzhi_tip.setText(bankList.get(position).getTip());
+                case 0:
+                    liuyan.setText("小易提示");
+                    im_my_xianzhi_icon.setImageResource(R.drawable.btn_message);
+                    break;
+                case 1:
+                    liuyan.setText("留言");
+                    im_my_xianzhi_icon.setImageResource(R.drawable.pic_blog_3);
+                    break;
+                case 2:
+                    liuyan.setText("交易提示");
+                    im_my_xianzhi_icon.setImageResource(R.drawable.pic_product_s);
+                    break;
+            }
+            tv_my_xianzhi_context.setText(messageType.messageContext);
+            redpoint.setText(""+messageType.messageNum);
+            tv_time.setText(messageType.messageTime);
 
         }
 
@@ -275,45 +291,27 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
      * 设置数据--测试
      */
     private void setData() {
-        MyXianZhiListBean bModel0 = new MyXianZhiListBean();
-        bModel0.price_now = "￥350";
-        bModel0.price_old = "￥400";
-        bModel0.context = "Pouch婴儿推车婴儿车宝宝手推车童车高景观避震轻便可躺可坐";
-        bModel0.type = "0";
-        bModel0.numOrName = "18";
-        bModel0.tip = "人向你发起了交易申请";
-        bModel0.time = "";
-        bankList.add(bModel0);
 
-        MyXianZhiListBean bModel1 = new MyXianZhiListBean();
-        bModel1.price_now = "￥350";
-        bModel1.price_old = "￥400";
-        bModel1.context = "Pouch婴儿推车婴儿车宝宝手推车童车高景观避震轻便可躺可坐";
-        bModel1.type = "1";
-        bModel1.numOrName = "火星上的猪";
-        bModel1.tip = "申请和你交易";
-        bModel1.time = "3小时前";
-        bankList.add(bModel1);
+        MessageType bMode0 = new MessageType();
+        bMode0.messageContext = "达人闲置秘籍";
+        bMode0.messageType = 0;
+        bMode0.messageNum =1;
+        bMode0.messageTime = "1小时前";
+        bankList.add(bMode0);
 
-        MyXianZhiListBean bModel2 = new MyXianZhiListBean();
-        bModel2.price_now = "￥350";
-        bModel2.price_old = "￥400";
-        bModel2.context = "Pouch婴儿推车婴儿车宝宝手推车童车高景观避震轻便可躺可坐";
-        bModel2.type = "0";
-        bModel2.numOrName = "18";
-        bModel2.tip = "人向你发起了交易申请";
-        bModel2.time = "";
-        bankList.add(bModel2);
+        MessageType bModel = new MessageType();
+        bModel.messageContext = "/@火情上的猪：450能交换吗？";
+        bModel.messageType = 1;
+        bModel.messageNum =3;
+        bModel.messageTime = "1小时前";
+        bankList.add(bModel);
 
-        MyXianZhiListBean bModel3 = new MyXianZhiListBean();
-        bModel3.price_now = "￥350";
-        bModel3.price_old = "￥400";
-        bModel3.context = "Pouch婴儿推车婴儿车宝宝手推车童车高景观避震轻便可躺可坐";
-        bModel3.type = "0";
-        bModel3.numOrName = "18";
-        bModel3.tip = "人向你发起了交易申请";
-        bModel3.time = "";
-        bankList.add(bModel3);
+        MessageType bMode2 = new MessageType();
+        bMode2.messageContext = "/@火会上的哈：已经同意了您的交易申请";
+        bMode2.messageType = 2;
+        bMode2.messageNum =3;
+        bMode2.messageTime = "2天前";
+        bankList.add(bMode2);
 
     }
 }

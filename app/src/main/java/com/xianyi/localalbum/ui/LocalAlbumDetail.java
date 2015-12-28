@@ -1,10 +1,17 @@
 package com.xianyi.localalbum.ui;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,11 +39,18 @@ import com.xianyi.R;
 import com.xianyi.AppContext;
 import com.xianyi.AppManager;
 import com.xianyi.localalbum.common.ExtraKey;
+import com.xianyi.localalbum.common.ImageUtils;
 import com.xianyi.localalbum.common.LocalImageHelper;
+import com.xianyi.localalbum.common.StringUtils;
 import com.xianyi.localalbum.widget.AlbumViewPager;
 import com.xianyi.localalbum.widget.MatrixImageView;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -53,7 +67,7 @@ public class LocalAlbumDetail extends BaseActivity implements MatrixImageView.On
     View pagerContainer;//图片显示部分
     TextView finish,headerFinish;
     AlbumViewPager viewpager;//大图显示pager
-    String folder;
+//    String folder;
     TextView mCountView;
     List<LocalImageHelper.LocalFile> currentFolder = null;
 
@@ -89,43 +103,122 @@ public class LocalAlbumDetail extends BaseActivity implements MatrixImageView.On
         headerFinish.setOnClickListener(this);
         findViewById(R.id.album_back).setOnClickListener(this);
 
-        folder = getIntent().getExtras().getString( ExtraKey.LOCAL_FOLDER_NAME);
+//        folder = getIntent().getExtras().getString( ExtraKey.LOCAL_FOLDER_NAME);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //防止停留在本界面时切换到桌面，导致应用被回收，图片数组被清空，在此处做一个初始化处理
                 helper.initImage();
+                final List< LocalImageHelper.LocalFile> imagesList =new ArrayList<LocalImageHelper.LocalFile>();
+                final Map<String, List<LocalImageHelper.LocalFile>> imagefolders= helper.getFolderMap();
+
+                Iterator iter = imagefolders.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String key = (String) entry.getKey();
+                    List< LocalImageHelper.LocalFile> folders = helper.getFolder(key);
+                    imagesList.addAll(folders);
+//                    folderNames.add(key);
+                }
                 //获取该文件夹下地所有文件
-                final List< LocalImageHelper.LocalFile> folders = helper.getFolder(folder);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (folders != null) {
-                            currentFolder = folders;
-                            MyAdapter adapter = new MyAdapter(LocalAlbumDetail.this, folders);
-                            title.setText(folder);
-                            gridView.setAdapter(adapter);
-                            //设置当前选中数量
-                            if (checkedItems.size()+  LocalImageHelper.getInstance().getCurrentSize() > 0) {
-                                finish.setText("完成(" + (checkedItems.size()+  LocalImageHelper.getInstance().getCurrentSize()) + "/9)");
-                                finish.setEnabled(true);
-                                headerFinish.setText("完成(" + (checkedItems.size()+  LocalImageHelper.getInstance().getCurrentSize()) + "/9)");
-                                headerFinish.setEnabled(true);
-                            } else {
-                                finish.setText("完成");
+
+                            if (imagesList != null) {
+                                currentFolder = imagesList;
+                                MyAdapter adapter = new MyAdapter(LocalAlbumDetail.this, imagesList);
+                                gridView.setAdapter(adapter);
+                                //设置当前选中数量
+                                if (checkedItems.size()+  LocalImageHelper.getInstance().getCurrentSize() > 0) {
+                                    finish.setText("完成(" + (checkedItems.size()+  LocalImageHelper.getInstance().getCurrentSize()) + "/9)");
+                                    finish.setEnabled(true);
+                                    headerFinish.setText("完成(" + (checkedItems.size()+  LocalImageHelper.getInstance().getCurrentSize()) + "/9)");
+                                    headerFinish.setEnabled(true);
+                                } else {
+                                    finish.setText("完成");
 //                                finish.setEnabled(false);
-                                headerFinish.setText("完成");
+                                    headerFinish.setText("完成");
 //                                headerFinish.setEnabled(false);
+                                }
                             }
                         }
-                    }
+
                 });
             }
         }).start();
         checkedItems=helper.getCheckedItems();
          LocalImageHelper.getInstance().setResultOk(false);
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA:
+                    String cameraPath = LocalImageHelper.getInstance().getCameraImgPath();
+                    if (StringUtils.isEmpty(cameraPath)) {
+                        Toast.makeText(this, "图片获取失败", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    File file = new File(cameraPath);
+                    if (file.exists()) {
+                        Uri uri = Uri.fromFile(file);
+                        LocalImageHelper.LocalFile localFile = new LocalImageHelper.LocalFile();
+                        localFile.setThumbnailUri(uri.toString());
+                        localFile.setOriginalUri(uri.toString());
+                        localFile.setOrientation(getBitmapDegree(cameraPath));
+                        LocalImageHelper.getInstance().getCheckedItems().add(localFile);
+                        LocalImageHelper.getInstance().setResultOk(true);
+                        //这里本来有个弹出progressDialog的，在拍照结束后关闭，但是要延迟1秒，原因是由于三星手机的相机会强制切换到横屏，
+                        //此处必须等它切回竖屏了才能结束，否则会有异常
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        },1000);
+                    } else {
+                        Toast.makeText(this, "图片获取失败", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    /**
+     * 读取图片的旋转的角度，还是三星的问题，需要根据图片的旋转角度正确显示
+     *
+     * @param path 图片绝对路径
+     * @return 图片的旋转角度
+     */
+    @TargetApi(Build.VERSION_CODES.ECLAIR)
+    private int getBitmapDegree(String path) {
+        int degree = 0;
+        try {
+            // 从指定路径下读取图片，并获取其EXIF信息
+            ExifInterface exifInterface = new ExifInterface(path);
+            // 获取图片的旋转信息
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
 
     private void showViewPager(int index) {
         pagerContainer.setVisibility(View.VISIBLE);
@@ -281,6 +374,10 @@ public class LocalAlbumDetail extends BaseActivity implements MatrixImageView.On
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .setImageSize(new ImageSize(((AppContext) context.getApplicationContext()).getQuarterWidth(), 0))
                     .displayer(new SimpleBitmapDisplayer()).build();
+
+
+            LocalImageHelper.LocalFile carame=new LocalImageHelper.LocalFile();
+            this.paths.add(0,carame);//添加相机按钮
         }
 
         @Override
@@ -301,7 +398,6 @@ public class LocalAlbumDetail extends BaseActivity implements MatrixImageView.On
         @Override
         public View getView(final int i, View convertView, ViewGroup viewGroup) {
             ViewHolder viewHolder = new ViewHolder();
-
             if (convertView == null || convertView.getTag() == null) {
                 viewHolder = new ViewHolder();
                 LayoutInflater inflater = getLayoutInflater();
@@ -310,22 +406,47 @@ public class LocalAlbumDetail extends BaseActivity implements MatrixImageView.On
                 viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
                 viewHolder.checkBox.setOnCheckedChangeListener(LocalAlbumDetail.this);
                 convertView.setTag(viewHolder);
+
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            ImageView imageView = viewHolder.imageView;
-             LocalImageHelper.LocalFile localFile = paths.get(i);
+            if(i==0){
+                viewHolder.imageView.setImageResource(R.drawable.btn_posts_camera_l);
+                viewHolder.checkBox.setChecked(false);
+                viewHolder.checkBox.setVisibility(View.GONE);
+                viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(LocalImageHelper.getInstance().getCurrentSize()+LocalImageHelper.getInstance().getCheckedItems().size()>=9){
+                            Toast.makeText(LocalAlbumDetail.this,"最多选择9张图片",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //  拍照后保存图片的绝对路径
+                        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
+                        File file = new File(cameraPath);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                        startActivityForResult(intent,
+                                ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA);
+                    }
+                });
+            }else{
+                viewHolder.checkBox.setVisibility(View.VISIBLE);
+                ImageView imageView = viewHolder.imageView;
+                LocalImageHelper.LocalFile localFile = paths.get(i);
 //            FrescoLoader.getInstance().localDisplay(localFile.getThumbnailUri(), imageView, options);
-            ImageLoader.getInstance().displayImage(localFile.getThumbnailUri(), new ImageViewAware(viewHolder.imageView), options,
-                    loadingListener, null, localFile.getOrientation());
-            viewHolder.checkBox.setTag(localFile);
-            viewHolder.checkBox.setChecked(checkedItems.contains(localFile));
-            viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showViewPager(i);
-                }
-            });
+                ImageLoader.getInstance().displayImage(localFile.getThumbnailUri(), new ImageViewAware(viewHolder.imageView), options,
+                        loadingListener, null, localFile.getOrientation());
+                viewHolder.checkBox.setTag(localFile);
+                viewHolder.checkBox.setChecked(checkedItems.contains(localFile));
+                viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showViewPager(i);
+                    }
+                });
+            }
+
             return convertView;
         }
 
