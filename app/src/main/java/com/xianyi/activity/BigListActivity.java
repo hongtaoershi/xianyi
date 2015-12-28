@@ -79,15 +79,14 @@ public class BigListActivity extends BaseActivity implements Animator.AnimatorLi
             R.drawable.classify_all_left_toy, R.drawable.classify_all_left_teaching,
             R.drawable.classify_all_left_mama};
     /** 全部分类，左布局文案 **/
-    private String[] leftListviewText = new String[]{"婴童服饰", "起居用品", "童趣玩具",
-            "文体教具", "妈咪专项"};
+    private String[] leftListviewText;
     /** 全部分类，右部布局文案 **/
     public static String[][] rightListviewText = new String[][]{
-            {"我我我我我", "我我我我我", "我我我我我", "我我我我我", "我我我我我"},
-            {"你你你你你", "你你你你你", "你你你你你", "你你你你你", "你你你你你"},
-            {"他他他他他", "他他他他他", "他他他他他", "他他他他他", "他他他他他"},
-            {"它它它它它", "它它它它它", "它它它它它", "它它它它它", "它它它它它"},
-            {"她她她她她", "她她她她她", "她她她她她", "她她她她她", "她她她她她"}};
+            {"新生儿礼盒", "哈衣", "外套", "羽绒", "套装", "童鞋", "袜子", "帽子", "泳装/泳裤", "牛仔", "连衣裙", "内衣裤"},
+            {"婴儿推车", "奶瓶", "婴儿床", "纸尿布", "沐浴毛毯", "安全座椅", "学步车", "婴儿睡袋", "婴儿餐椅", "暖奶器", "爬行垫", "婴儿澡盆"},
+            {"游泳池", "积木", "摇铃", "毛绒玩具", "电动玩具", "智能玩具", "婴儿健身架", "拼图", "故事机", "轨道车", "游戏屋", "沙滩玩具"},
+            {"自行车", "路滑鞋", "滑板车", "幼教卡/盘", "绘本/图书", "画板/画架", "学生书包", "电子琴", "跳绳", "游泳圈", "玩具球", "儿童画笔"},
+            {"防辐射服", "孕妇装", "洗护保养", "营养保养", "待产包", "妈咪包", "婴儿背带", "束腹装", "托腹裤", "产褥垫", "护腰枕", "孕纹防护霜"}};
 
     /*************** 北京分类布局 ***************/
     /** 北京分类布局 **/
@@ -146,8 +145,6 @@ public class BigListActivity extends BaseActivity implements Animator.AnimatorLi
     /** 小类别 **/
     private String classify; //1-12
 
-    private String[] string0 = new String[]{
-            "婴童服饰","起居用品","童趣玩具","文体教具","妈咪专享"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,6 +163,9 @@ public class BigListActivity extends BaseActivity implements Animator.AnimatorLi
             type = intent.getStringExtra("type");
             classify = intent.getStringExtra("classify");
         }
+
+        leftListviewText = new String[]{};
+        leftListviewText = getResources().getStringArray(R.array.array0);
     }
 
     public void initViews() {

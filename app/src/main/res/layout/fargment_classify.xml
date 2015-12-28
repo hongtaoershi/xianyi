@@ -67,7 +67,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -96,7 +96,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginBottom="3dp">
 
                             <ImageView
@@ -122,7 +122,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -157,7 +157,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -185,7 +185,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray">
+                            android:background="@drawable/classify_btn">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -211,7 +211,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -269,7 +269,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -298,7 +298,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginBottom="3dp">
 
                             <ImageView
@@ -324,7 +324,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -359,7 +359,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -387,7 +387,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray">
+                            android:background="@drawable/classify_btn">
 
                             <ImageView
                                 android:layout_width="90dp"
@@ -413,7 +413,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -471,7 +471,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -500,7 +500,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginBottom="3dp">
 
                             <ImageView
@@ -526,7 +526,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -561,7 +561,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -589,7 +589,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray">
+                            android:background="@drawable/classify_btn">
 
                             <ImageView
                                 android:layout_width="90dp"
@@ -615,7 +615,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -673,7 +673,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -702,7 +702,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginBottom="3dp">
 
                             <ImageView
@@ -728,7 +728,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -763,7 +763,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -791,7 +791,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray">
+                            android:background="@drawable/classify_btn">
 
                             <ImageView
                                 android:layout_width="90dp"
@@ -817,7 +817,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -876,7 +876,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -905,7 +905,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginBottom="3dp">
 
                             <ImageView
@@ -931,7 +931,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
                             android:layout_marginBottom="3dp">
@@ -966,7 +966,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 
@@ -994,7 +994,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray">
+                            android:background="@drawable/classify_btn">
 
                             <ImageView
                                 android:layout_width="90dp"
@@ -1020,7 +1020,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@color/classify_gray"
+                            android:background="@drawable/classify_btn"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp">
 

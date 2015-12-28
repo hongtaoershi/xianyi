@@ -3,7 +3,7 @@
 
    
     <!-- 中间的背景色 -->
-    <solid android:color="#dddddd" />
+    <solid android:color="#55dddddd" />
     <!-- 设置四个角的角度 -->
     <corners
         android:topRightRadius="@dimen/btn_radis"

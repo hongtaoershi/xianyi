@@ -3,14 +3,14 @@
 
 
     <!-- 中间的背景色 -->
-    <solid android:color="#55d9d9d9"/>
+    <solid android:color="@color/big_list_bg_color"/>
 
     <!-- 设置四个角的角度 -->
     <corners
-        android:topRightRadius="0dp"
-        android:topLeftRadius="0dp"
-        android:bottomLeftRadius="0dp"
-        android:bottomRightRadius="0dp"/>
+        android:topRightRadius="5dp"
+        android:topLeftRadius="5dp"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"/>
 
     <stroke
         android:width="0dp"

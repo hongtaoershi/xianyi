@@ -12,15 +12,18 @@
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/pink_bt_selector </item>
     </style>
+
     <style name="DialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
     <style name="AnimBottom" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
         <!--<item name="android:windowExitAnimation">@anim/push_bottom_out</item>-->
     </style>
+
     <style name="MyDialogStyleBottom" parent="android:Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
         <item name="android:windowFrame">@null</item>
@@ -36,6 +39,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 模糊 -->
     </style>
+
     <style name="login_btn_style">
         <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">60dp</item>
@@ -75,6 +79,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:background">@drawable/out_btn</item>
     </style>
+
     <style name="dividing_line_style">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/dividing_0.5</item>

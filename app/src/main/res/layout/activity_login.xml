@@ -9,8 +9,7 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_below="@id/title">
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/scroll_layout"
@@ -29,55 +28,113 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/login_im"
-                    android:layout_marginTop="100dp"/>
+                    android:layout_marginTop="50dp"/>
 
-                <!-- 手机号 -->
-                <EditText
-                    android:id="@+id/et_phone"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_edittext"
-                    android:drawableLeft="@drawable/login_phone"
-                    android:drawablePadding="15dp"
-                    android:paddingLeft="15dp"
-                    android:textColorHint="#AAAAAA"
-                    android:textSize="15dp"
-                    android:singleLine="true"
-                    android:hint="手机号码"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/login_edit"
+                    android:gravity="center"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
-                    android:inputType="number"
-                    android:completionThreshold="1"
-                    android:maxLength="11"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"/>
+                    android:layout_marginTop="30dp">
+
+                    <TextView
+                        android:id="@+id/tv_state1"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:background="@drawable/login_state_1"
+                        android:layout_weight="1"
+                        android:text="密码登录"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/textsize_16"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/tv_state2"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:background="@drawable/login_state_2"
+                        android:layout_weight="1"
+                        android:text="动态密码登录"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/textsize_16"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <!-- 手机号 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/tv_login_edit_left_phone"
+                        android:layout_width="50dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/login_edit_left"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:visibility="visible"/>
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/login_edit"
+                        android:drawableLeft="@drawable/login_phone"
+                        android:drawablePadding="15dp"
+                        android:paddingLeft="15dp"
+                        android:textColorHint="@color/white"
+                        android:textSize="15dp"
+                        android:singleLine="true"
+                        android:hint="&#160;&#160;手机号码"
+                        android:inputType="number"
+                        android:completionThreshold="1"
+                        android:maxLength="11"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"/>
+
+                </RelativeLayout>
 
                 <!-- 验证码 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@color/white"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="50dp">
+
+                    <TextView
+                        android:id="@+id/tv_login_edit_left_code"
+                        android:layout_width="50dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/login_edit_left"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:visibility="visible"/>
 
                     <!-- 验证码 -->
                     <EditText
                         android:id="@+id/et_code"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_edittext"
+                        android:background="@drawable/login_edit"
                         android:drawableLeft="@drawable/login_code"
                         android:drawablePadding="15dp"
                         android:paddingLeft="15dp"
-                        android:textColorHint="#AAAAAA"
+                        android:textColorHint="@color/white"
                         android:textSize="15dip"
                         android:singleLine="true"
-                        android:hint="验证码"
+                        android:hint="&#160;验证码"
                         android:maxLength="20"
                         android:inputType="textPassword"
                         android:focusable="true"
@@ -92,10 +149,11 @@
                         android:text="获取"
                         android:textColor="@color/login_btn_color"
                         android:textSize="@dimen/textsize_16"
-                        android:background="#c9d4e5"
+                        android:background="@drawable/login_edit_right"
                         android:gravity="center"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"/>
+                        android:paddingRight="10dp"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 

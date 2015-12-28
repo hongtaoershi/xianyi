@@ -26,6 +26,7 @@
 
     <color name="login_btn_color">#856fd8</color>
     <color name="menu_pass_text_bg">#ead8c2</color>
+    <color name="big_list_bg_color">#f7f3f0</color>
 
     <color name="classify_title_class_bg_color">#ead8c2</color>
     <color name="classify_text_gray">#707070</color>
@@ -37,8 +38,8 @@
     <!-- 透明色 -->
     <color name="fuxk_settle_black_mark">#55000000</color>
     <color name="toast_bg">#99000000</color><!-- 60%透明色 -->
-    <color name="toast_bg_white">#55ffffff</color><!-- 60%透明色 -->
-    <color name="touming_bg">#00000000</color><!-- 60%透明色 -->
+    <color name="toast_bg_white">#ccffffff</color><!-- 60%透明色 -->
+    <color name="touming_bg">#00000000</color><!-- 100%透明色 -->
 
     <!-- 分割线 -->
     <color name="fuxk_base_divide_line_color">#dcdcdc</color>
