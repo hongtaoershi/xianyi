@@ -29,7 +29,7 @@ import com.xianyi.utils.LogUtil;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
     private SlidingMenu mMenu;
     Context mContext;
     Handler mHandler = new Handler() {
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mContext=this;
+        mContext = this;
         initTabMenuDrawable();
         mMenu = (SlidingMenu) findViewById(R.id.id_menu);
         tab0 = (TextView) findViewById(R.id.tab0);
@@ -74,24 +74,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initLeftMenu();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     Drawable drawable_tab0_normal, drawable_tab1_normal, drawable_tab3_normal, drawable_tab4_normal;
     Drawable drawable_tab0_pressed, drawable_tab1_pressed, drawable_tab3_pressed, drawable_tab4_pressed;
 
     public void initTabMenuDrawable() {
-         drawable_tab0_normal = getResources().getDrawable(R.drawable.tab_sort_normal);
-         drawable_tab1_normal = getResources().getDrawable(R.drawable.tab_find_normal);
-         drawable_tab3_normal = getResources().getDrawable(R.drawable.tab_message_normal);
-         drawable_tab4_normal = getResources().getDrawable(R.drawable.tab_score_normal);
-         drawable_tab0_pressed = getResources().getDrawable(R.drawable.tab_sort_pressed);
-         drawable_tab1_pressed = getResources().getDrawable(R.drawable.tab_find_pressed);
-         drawable_tab3_pressed = getResources().getDrawable(R.drawable.tab_message_pressed);
-         drawable_tab4_pressed = getResources().getDrawable(R.drawable.tab_score_pressed);
+        drawable_tab0_normal = getResources().getDrawable(R.drawable.tab_sort_normal);
+        drawable_tab1_normal = getResources().getDrawable(R.drawable.tab_find_normal);
+        drawable_tab3_normal = getResources().getDrawable(R.drawable.tab_message_normal);
+        drawable_tab4_normal = getResources().getDrawable(R.drawable.tab_score_normal);
+        drawable_tab0_pressed = getResources().getDrawable(R.drawable.tab_sort_pressed);
+        drawable_tab1_pressed = getResources().getDrawable(R.drawable.tab_find_pressed);
+        drawable_tab3_pressed = getResources().getDrawable(R.drawable.tab_message_pressed);
+        drawable_tab4_pressed = getResources().getDrawable(R.drawable.tab_score_pressed);
     }
 
     public void initFragment() {
         mHomeFragment0 = new ClassifyFragment();
         mHomeFragment1 = new FindFragment();
-        mHomeFragment2=new MessageFragment();
+        mHomeFragment2 = new MessageFragment();
         mHomeFragment3 = new IntegralFragment();
 
     }
@@ -108,7 +113,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         findViewById(R.id.ly_browse_history).setOnTouchListener(this);
         findViewById(R.id.ly_shop).setOnTouchListener(this);
         findViewById(R.id.ly_account_management).setOnTouchListener(this);
-        findViewById(R.id.ly_setting).setOnTouchListener(this);;
+        findViewById(R.id.ly_setting).setOnTouchListener(this);
+        ;
     }
 
 
@@ -142,7 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case HOME_TAB_INDEX_2:
                 hideFragments(transaction);
                 if (null == mHomeFragment2) {
-                    mHomeFragment2=new MessageFragment();
+                    mHomeFragment2 = new MessageFragment();
                     transaction.add(R.id.center_layout, mHomeFragment2, "2");
                 } else {
                     transaction.show(mHomeFragment2);
@@ -178,28 +184,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void changeTabMenu(int index) {
         switch (index) {
             case HOME_TAB_INDEX_0:
-                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab0_pressed,null,null);
-                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab1_normal,null,null);
-                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab3_normal,null,null);
-                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab4_normal,null,null);
+                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab0_pressed, null, null);
+                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab1_normal, null, null);
+                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab3_normal, null, null);
+                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab4_normal, null, null);
                 break;
             case HOME_TAB_INDEX_1:
-                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab0_normal,null,null);
-                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab1_pressed,null,null);
-                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab3_normal,null,null);
-                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab4_normal,null,null);
+                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab0_normal, null, null);
+                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab1_pressed, null, null);
+                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab3_normal, null, null);
+                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab4_normal, null, null);
                 break;
             case HOME_TAB_INDEX_2:
-                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab0_normal,null,null);
-                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab1_normal,null,null);
-                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab3_pressed,null,null);
-                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab4_normal,null,null);
+                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab0_normal, null, null);
+                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab1_normal, null, null);
+                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab3_pressed, null, null);
+                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab4_normal, null, null);
                 break;
             case HOME_TAB_INDEX_3:
-                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab0_normal,null,null);
-                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab1_normal,null,null);
-                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab3_normal,null,null);
-                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable_tab4_pressed,null,null);
+                tab0.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab0_normal, null, null);
+                tab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab1_normal, null, null);
+                tab3.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab3_normal, null, null);
+                tab4.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable_tab4_pressed, null, null);
                 break;
             default:
                 break;
@@ -236,67 +242,67 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //                    fagment.setVisible(true);
 //                }
 
-                    switch(index){
-                        case 0:
-                            if(mHomeFragment0!=null) {
-                                mHomeFragment0.setVisible(true);
-                            }
-                            if(mHomeFragment1!=null) {
-                                mHomeFragment1.setVisible(false);
-                            }
-                            if(mHomeFragment2!=null) {
-                                mHomeFragment2.setVisible(false);
-                            }
-                            if(mHomeFragment3!=null) {
-                                mHomeFragment3.setVisible(false);
-                            }
-                            break;
+                switch (index) {
+                    case 0:
+                        if (mHomeFragment0 != null) {
+                            mHomeFragment0.setVisible(true);
+                        }
+                        if (mHomeFragment1 != null) {
+                            mHomeFragment1.setVisible(false);
+                        }
+                        if (mHomeFragment2 != null) {
+                            mHomeFragment2.setVisible(false);
+                        }
+                        if (mHomeFragment3 != null) {
+                            mHomeFragment3.setVisible(false);
+                        }
+                        break;
 
-                        case 1:
-                            if(mHomeFragment0!=null) {
-                                mHomeFragment0.setVisible(false);
-                            }
-                            if(mHomeFragment1!=null) {
-                                mHomeFragment1.setVisible(true);
-                            }
-                            if(mHomeFragment2!=null) {
-                                mHomeFragment2.setVisible(false);
-                            }
-                            if(mHomeFragment3!=null) {
-                                mHomeFragment3.setVisible(false);
-                            }
-                            break;
+                    case 1:
+                        if (mHomeFragment0 != null) {
+                            mHomeFragment0.setVisible(false);
+                        }
+                        if (mHomeFragment1 != null) {
+                            mHomeFragment1.setVisible(true);
+                        }
+                        if (mHomeFragment2 != null) {
+                            mHomeFragment2.setVisible(false);
+                        }
+                        if (mHomeFragment3 != null) {
+                            mHomeFragment3.setVisible(false);
+                        }
+                        break;
 
-                        case 2:
-                            if(mHomeFragment0!=null) {
-                                mHomeFragment0.setVisible(false);
-                            }
-                            if(mHomeFragment1!=null) {
-                                mHomeFragment1.setVisible(false);
-                            }
-                            if(mHomeFragment2!=null) {
-                                mHomeFragment2.setVisible(true);
-                            }
-                            if(mHomeFragment3!=null) {
-                                mHomeFragment3.setVisible(false);
-                            }
-                            break;
+                    case 2:
+                        if (mHomeFragment0 != null) {
+                            mHomeFragment0.setVisible(false);
+                        }
+                        if (mHomeFragment1 != null) {
+                            mHomeFragment1.setVisible(false);
+                        }
+                        if (mHomeFragment2 != null) {
+                            mHomeFragment2.setVisible(true);
+                        }
+                        if (mHomeFragment3 != null) {
+                            mHomeFragment3.setVisible(false);
+                        }
+                        break;
 
-                        case 3:
-                            if(mHomeFragment0!=null) {
-                                mHomeFragment0.setVisible(false);
-                            }
-                            if(mHomeFragment1!=null) {
-                                mHomeFragment1.setVisible(false);
-                            }
-                            if(mHomeFragment2!=null) {
-                                mHomeFragment2.setVisible(false);
-                            }
-                            if(mHomeFragment3!=null) {
-                                mHomeFragment3.setVisible(true);
-                            }
-                            break;
-                    }
+                    case 3:
+                        if (mHomeFragment0 != null) {
+                            mHomeFragment0.setVisible(false);
+                        }
+                        if (mHomeFragment1 != null) {
+                            mHomeFragment1.setVisible(false);
+                        }
+                        if (mHomeFragment2 != null) {
+                            mHomeFragment2.setVisible(false);
+                        }
+                        if (mHomeFragment3 != null) {
+                            mHomeFragment3.setVisible(true);
+                        }
+                        break;
+                }
             }
         }, 400);
     }
@@ -310,7 +316,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             } else if (tag.equals("tab1")) {
                 onTabSelected(1);
             } else if (tag.equals("tab2")) {//发布
-                Intent mIntent=new Intent(mContext,PublishActivity.class);
+                Intent mIntent = new Intent(mContext, PublishActivity.class);
                 startActivity(mIntent);
 //                Intent mIntent=new Intent(mContext,DynamicPost.class);
 //                startActivity(mIntent);
@@ -351,7 +357,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 float cx = event.getX();
                 float cy = event.getY();
                 moveXY = Math.abs(cx - lastX) + Math.abs(cy - lastY);
-                LogUtil.d("moveXY:"+moveXY);
+                LogUtil.d("moveXY:" + moveXY);
                 if (moveXY > 30) {
                     leftMenuTouch(v, false);
                     isNeedUp = false;
@@ -478,6 +484,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
         }
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mMenu != null) {
+                    mMenu.closeMenu();
+                }
+            }
+        },1000);
+
     }
 
     @Override

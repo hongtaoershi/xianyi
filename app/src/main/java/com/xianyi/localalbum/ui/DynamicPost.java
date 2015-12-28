@@ -219,7 +219,8 @@ public class DynamicPost extends BaseActivity implements OnClickListener, Matrix
                 }
                 break;
             case R.id.post_add_pic:
-                Intent intent = new Intent(DynamicPost.this, LocalAlbum.class);
+//                Intent intent = new Intent(DynamicPost.this, LocalAlbum.class);
+                Intent intent = new Intent(DynamicPost.this, LocalAlbumDetail.class);
                 startActivityForResult(intent, ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP);
                 break;
             default:

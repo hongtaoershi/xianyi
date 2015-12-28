@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,26 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.xianyi.R;
 import com.xianyi.customviews.TitleView;
 import com.xianyi.interfaces.IRecordFinish;
+import com.xianyi.localalbum.common.ImageUtils;
+import com.xianyi.localalbum.common.LocalImageHelper;
+import com.xianyi.localalbum.ui.DynamicPost;
+import com.xianyi.localalbum.ui.LocalAlbumDetail;
+import com.xianyi.localalbum.widget.FilterImageView;
 import com.xianyi.utils.LogUtil;
 import com.xianyi.utils.PictureUtil;
 import com.xianyi.utils.RecordMediaPlayer;
@@ -39,7 +53,7 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
     MediaAdapter adapter;
     GridView add_detail_gridview;
     TextView fenlei_info, zuodiansha_info;
-
+    DisplayImageOptions options;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +77,12 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
                     RecordMediaPlayer player = RecordMediaPlayer.getInstance();
                     player.play(meidaType.pathString);
                 } else if (meidaType.type.equals("3")) {//添加图片
-                    //使用startActivityForResult启动SelectPicPopupWindow当返回到此Activity的时候就会调用onActivityResult函数
-                    Intent intent1 = new Intent(mContext,
-                            SelectPicPopupWindow.class);
-                    startActivityForResult(intent1, PICKPHOTO);
+//                    //使用startActivityForResult启动SelectPicPopupWindow当返回到此Activity的时候就会调用onActivityResult函数
+//                    Intent intent1 = new Intent(mContext,
+//                            SelectPicPopupWindow.class);
+//                    startActivityForResult(intent1, PICKPHOTO);
+                    Intent intent = new Intent(mContext, LocalAlbumDetail.class);
+                    startActivityForResult(intent, ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP);
                 } else if (meidaType.type.equals("4")) {//添加语音
 //                    RecordMediaPlayer player = RecordMediaPlayer.getInstance();
 //                    player.play(meidaType.pathString);
@@ -86,6 +102,15 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
         });
         fenlei_info= (TextView) findViewById(R.id.fenlei_info);
         zuodiansha_info= (TextView) findViewById(R.id.zuodiansha_info);
+        //设置ImageLoader参数
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(false)
+                .showImageForEmptyUri(R.drawable.dangkr_no_picture_small)
+                .showImageOnFail(R.drawable.dangkr_no_picture_small)
+                .showImageOnLoading(R.drawable.dangkr_no_picture_small)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new SimpleBitmapDisplayer()).build();
         initPicData();
     }
 
@@ -129,9 +154,8 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
         adapter.notifyDataSetChanged();
 
     }
-
+    final int SELECTTYPE = 0;
     final int PICKPHOTO = 1;
-    final int SELECTTYPE = 2;
     final int TOGET = 3;
     String selectedData;
     String huandiansha;
@@ -149,7 +173,6 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
                         if (image != null) {
                             MeidaType meidaType = new MeidaType();
                             meidaType.type = "1";
-                            meidaType.bitmap = image;
                             meidaType.pathString = picPath;
                             adapter.getData().add(0, meidaType);
                             adapter.notifyDataSetChanged();
@@ -186,6 +209,26 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
 
                 }
 
+                break;
+            case ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP:
+                if (LocalImageHelper.getInstance().isResultOk()) {
+                    LocalImageHelper.getInstance().setResultOk(false);
+                    //获取选中的图片
+                    List<LocalImageHelper.LocalFile> files = LocalImageHelper.getInstance().getCheckedItems();
+                    for (int i = 0; i < files.size(); i++) {
+                        MeidaType meidaType = new MeidaType();
+                        meidaType.type = "1";
+                        meidaType.pathString = files.get(i).getThumbnailUri();
+                        adapter.getData().add(0, meidaType);
+                    }
+                    adapter.notifyDataSetChanged();
+                    //清空选中的图片
+                    files.clear();
+//                    //设置当前选中的图片数量
+                    LocalImageHelper.getInstance().setCurrentSize(files.size());
+                }
+                //清空选中的图片
+                LocalImageHelper.getInstance().getCheckedItems().clear();
                 break;
             default:
                 break;
@@ -249,7 +292,7 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
+            final ViewHolder viewHolder;
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.media_layout, null);
                 viewHolder = new ViewHolder();
@@ -262,19 +305,91 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
             }
             MeidaType meidaType = meidaTypeList.get(position);
             if (meidaType.type.equals("1")) {//图片
-                viewHolder.play.setImageBitmap(meidaType.bitmap);
+                ImageLoader.getInstance().displayImage(meidaType.pathString, viewHolder.play, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                    }
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        viewHolder.play.setImageResource(R.drawable.dangkr_no_picture_small);
+                    }
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                    }
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+                    }
+                });
                 viewHolder.tv_info.setVisibility(View.GONE);
                 viewHolder.play.setScaleType(ImageView.ScaleType.FIT_XY);
             } else if (meidaType.type.equals("2")) {//语音
-                viewHolder.play.setImageResource(R.drawable.voice_play);
+                ImageLoader.getInstance().displayImage(meidaType.pathString, viewHolder.play, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                        viewHolder.play.setImageResource(R.drawable.voice_play);
+                    }
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        viewHolder.play.setImageResource(R.drawable.voice_play);
+                    }
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        viewHolder.play.setImageResource(R.drawable.voice_play);
+                    }
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+                        viewHolder.play.setImageResource(R.drawable.voice_play);
+                    }
+                });
                 viewHolder.tv_info.setVisibility(View.GONE);
                 viewHolder.play.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             } else if (meidaType.type.equals("3")) {//添加图片
-                viewHolder.play.setImageResource(R.drawable.btn_addpic);
+//                viewHolder.play.setImageResource(R.drawable.btn_addpic);
+                ImageLoader.getInstance().displayImage(meidaType.pathString, viewHolder.play, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                        viewHolder.play.setImageResource(R.drawable.btn_addpic);
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        viewHolder.play.setImageResource(R.drawable.btn_addpic);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        viewHolder.play.setImageResource(R.drawable.btn_addpic);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+                        viewHolder.play.setImageResource(R.drawable.btn_addpic);
+                    }
+                });
                 viewHolder.tv_info.setVisibility(View.VISIBLE);
                 viewHolder.play.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             } else if (meidaType.type.equals("4")) {//添加语音
-                viewHolder.play.setImageResource(R.drawable.btn_record);
+                ImageLoader.getInstance().displayImage(meidaType.pathString, viewHolder.play, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                        viewHolder.play.setImageResource(R.drawable.btn_record);
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        viewHolder.play.setImageResource(R.drawable.btn_record);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        viewHolder.play.setImageResource(R.drawable.btn_record);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+                        viewHolder.play.setImageResource(R.drawable.btn_record);
+                    }
+                });
                 viewHolder.tv_info.setVisibility(View.VISIBLE);
                 viewHolder.play.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             }
@@ -333,7 +448,6 @@ public class PublishActivity extends BaseActivity implements IRecordFinish {
          * 1：图片  2：语音  3:添加图片  4：添加语音
          */
         String type;
-        Bitmap bitmap;
         String pathString;
         boolean isShowDeleteed;
     }
